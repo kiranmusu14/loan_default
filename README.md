@@ -13,22 +13,23 @@ End-to-end binary classification pipeline that predicts whether a borrower will 
 ## Project Structure
 
 ```
-├── loan_default_model.ipynb       # Source notebook (run this)
-├── loan_default_model_executed.ipynb  # Notebook with full outputs
-├── exploration.ipynb              # Initial data exploration
-├── loan_default_model.pkl         # Trained LightGBM model
-├── model_features.pkl             # Feature list for inference
-├── best_threshold.pkl             # Optimal decision threshold (0.518)
-├── requirements.txt               # Python dependencies
-├── LCDataDictionary.xlsx          # Column definitions
-├── confusion_matrix.png           # Confusion matrix plot
-├── feature_importance.png         # Top 30 feature importances
-├── roc_pr_curves.png              # ROC and Precision-Recall curves
-├── score_distribution.png         # Risk score distribution
-└── threshold_analysis.png         # Precision/Recall/F1 vs threshold
+├── notebooks/
+│   ├── loan_default_model.ipynb           # Source notebook (run this)
+│   ├── loan_default_model_executed.ipynb  # Notebook with full outputs
+│   └── exploration.ipynb                  # Initial data exploration
+├── plots/
+│   ├── confusion_matrix.png               # Confusion matrix
+│   ├── feature_importance.png             # Top 30 feature importances
+│   ├── roc_pr_curves.png                  # ROC and Precision-Recall curves
+│   ├── score_distribution.png             # Risk score distribution
+│   └── threshold_analysis.png             # Precision/Recall/F1 vs threshold
+├── data/
+│   └── LCDataDictionary.xlsx              # Column definitions
+├── requirements.txt                        # Python dependencies
+└── README.md
 ```
 
-> `loan.csv` (1.1 GB) is not included. Download from [Kaggle — LendingClub Loan Data](https://www.kaggle.com/datasets/wordsforthewise/lending-club).
+> `data/loan.csv` (1.1 GB) is not included. Download from [Kaggle — LendingClub Loan Data](https://www.kaggle.com/datasets/wordsforthewise/lending-club).
 
 ## Pipeline Overview
 
@@ -83,19 +84,4 @@ Raw CSV (2.26M rows, 145 cols)
 pip install -r requirements.txt
 ```
 
-Then open `loan_default_model.ipynb` and run all cells.
-
-## Inference
-
-```python
-import joblib
-import pandas as pd
-
-model     = joblib.load('loan_default_model.pkl')
-features  = joblib.load('model_features.pkl')
-threshold = joblib.load('best_threshold.pkl')
-
-# df must have the same engineered features
-prob = model.predict_proba(df[features])[:, 1]
-pred = (prob >= threshold).astype(int)
-```
+Then open `notebooks/loan_default_model.ipynb` and run all cells.
